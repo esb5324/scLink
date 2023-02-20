@@ -69,6 +69,7 @@ get_res_wGL_quic = function(covobs, weights, genes, nobs, l1, ncores){
 
   res = lapply(1:length(l1), function(i){
     Sigma = theta_list[[i]]
+    Sigma[lower.tri(Sigma)]<-t(Sigma)[lower.tri(Sigma)] 
     adj = 1 * (Sigma != 0)
     
     p = nrow(Sigma)
@@ -79,6 +80,7 @@ get_res_wGL_quic = function(covobs, weights, genes, nobs, l1, ncores){
     return(list(adj = adj, Sigma = Sigma, nedge = nedge, 
                 bic = bic, lambda = l1[i]))
   })
+  print("Sigma lower tri changed to upper tri")
   return(res)
 }
 
